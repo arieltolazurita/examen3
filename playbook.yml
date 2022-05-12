@@ -1,0 +1,48 @@
+---
+- anfitriones : biónico
+  convertirse en : si
+  convertirse en método : sudo
+  tareas :
+    - nombre : asegúrese de que podamos conectarnos a la máquina virtual
+      hacer ping :
+    - nombre : Actualizar una actualización de paquetes aptos
+      apto :
+        actualización : sí
+        actualización_caché : sí
+        cache_valid_time : 8600  # Un día  
+    - nombre : Instalar ventana acoplable y algunas dependencias
+      apto :
+        nombre : python3-pip, docker.io, docker-compose
+        estado : presente
+    - nombre : iniciar el servicio docker
+      servicio :
+          nombre :   estibador  
+          estado : iniciado    
+    - nombre : Instalar el módulo docker python
+      pipa :
+        nombre :
+          - estibador
+          - docker-componer
+    - nombre : Crear un volumen docker
+      docker_volume :
+        nombre : portainer_data
+    - nombre : Instalar portainer
+      docker_container :
+        nombre : portainer
+        imagen : portainer/portainer-ce:2.11.1
+        estado : iniciado
+        reiniciar_policy : siempre
+        puertos :
+          - " 8000:8000 "
+          - " 9443:9443 "
+        volúmenes :
+          - /var/run/docker.sock:/var/run/docker.sock
+          - portainer_data:/data_portainer/
+    - nombre : copiar Docker componer yml
+      copia :
+        src : ../authelia
+        destino : /tmp/
+    - nombre : Instalar Authelia
+      ventana acoplable_componer :
+        project_src : /tmp/authelia  
+        estado : presente

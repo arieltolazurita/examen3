@@ -1,0 +1,67 @@
+---
+# ############################################# #############
+#                    Configuración de Authelia #
+# ############################################# #############
+
+jwt_secret : un_muy_importante_secreto
+default_redirection_url : https://public.example.com
+
+servidor :
+  anfitrión : 0.0.0.0
+  puerto : 9091
+
+registro :
+  nivel : depuración
+
+
+arriba :
+  emisor : autelia.com
+
+
+autenticación_backend :
+  archivo :
+    ruta : /config/users_database.yml
+
+control_de_acceso :
+  política_predeterminada : denegar
+  reglas :
+
+    - dominio : público.ejemplo.com
+      política : derivación
+    - dominio : traefik.ejemplo.com
+      política : un factor
+    - dominio : seguro.ejemplo.com
+      política : dos_factores
+
+sesión :
+  nombre : autelia_session
+
+  secreto : unsecure_session_secret
+  caducidad : 3600   # 1 hora
+  inactividad : 300   # 5 minutos
+  dominio : ejemplo.com   
+
+  redis :
+    anfitrión : redis
+    puerto : 6379
+
+regulación :
+  máx_reintentos : 3
+  encontrar_tiempo : 120
+  ban_tiempo : 300
+
+almacenamiento :
+  clave_de_cifrado : debe_generar_una_cadena_aleatoria_de_mas_de_veinte_caracteres_y_configurar_esto
+  locales :
+    ruta : /config/db.sqlite3
+
+notificador :
+  SMTP :
+    nombre de usuario : ' 4c1737c79136dc '
+    # Este secreto también se puede configurar usando las variables env AUTHELIA_NOTIFIER_SMTP_PASSWORD_FILE
+    # De mailtrap.io
+    contraseña : ' 1eb8b8ec25debb '
+    servidor : smtp.mailtrap.io
+    puerto : 2525
+    remitente : admin@example.com
+...
