@@ -1,2 +1,0 @@
-[biónico]
-192.168.0.13 ansible_user=arielzurita ansible_ssh_private_key_file=./bionic.key
